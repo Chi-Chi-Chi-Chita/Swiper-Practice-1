@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>縮圖練習</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+</head>
+
+<style type="text/css">
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --swiper-theme-color: #e74ebc;
+    --swiper-pagination-bullet-size: 0.6rem;
+    --swiper-pagination-bullet-inactive-color: #fff;
+    --swiper-pagination-bullet-inactive-opacity: 0.2;
+  }
+
+  body {
+    line-height: 1.4;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Roboto Mono', monospace;
+    background-color: #2e39be;
+    min-height: 100vh;
+  }
+
+  /*header start*/
+  header {
+    display: flex;
+    padding: 2rem;
+    color: #fff;
+    text-transform: uppercase;
+    /*大寫*/
+  }
+
+  header .logo {
+    width: 6rem;
+    height: 3rem;
+    display: inline-block;
+    position: relative;
+  }
+
+  header .logo::before,
+  header .logo::after {
+    content: "";
+    width: 3rem;
+    height: 3rem;
+    border-radius: .5rem;
+    display: block;
+    transform: rotate(45deg);
+    position: absolute;
+  }
+
+  header .logo::before {
+    background: #7b34d4;
+    left: 0.5rem;
+  }
+
+  header .logo::after {
+    background: #e74ebc;
+    left: 2rem;
+    z-index: -1;
+  }
+
+  header h1 {
+    line-height: 1;
+    font-size: 1.5rem;
+  }
+
+  /*header end*/
+
+  main {
+    padding: 2rem 0;
+    position: relative;
+  }
+
+  /*section start*/
+  [data-model="00"] h2 small {
+    color: #edb31e;
+  }
+
+  [data-model="01"] h2 small {
+    color: #7b34d4;
+  }
+
+  [data-model="01"] h2 small {
+    color: #e3186c;
+  }
+
+  section+section {
+    margin-top: 4rem;
+  }
+
+  /*section end*/
+
+  /*carousel start*/
+  .carousel {
+    position: relative;
+  }
+
+  .swiper-wrapper {
+    height: 400px;
+  }
+
+  .swiper-slide {
+    overflow: hidden;
+  }
+
+  .swiper-slide img {
+    max-height: 100%;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .controls .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .controls .button-nav {
+    position: absolute;
+    z-index: 10;
+    top: calc(50% - 3rem);
+    width: 2rem;
+    height: 2rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    border-radius: .5rem;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .controls .button-nav span {
+    position: relative;
+    display: block;
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+
+  .controls .button-left {
+    left: 2rem;
+  }
+
+  .controls .button-left span {
+    border-bottom: 1px solid #fff;
+    border-left: 1px solid #fff;
+    bottom: 2px;
+    left: 2px;
+  }
+
+  .controls .button-right {
+    right: 2rem;
+  }
+
+  .controls .button-right span {
+    border-top: 1px solid #fff;
+    border-right: 1px solid #fff;
+    top: 2px;
+    right: 2px;
+  }
+
+  /*carousel end*/
+
+
+  /*group start*/
+  .group {
+    background-color: #fff;
+    padding: 2rem;
+    margin: 2rem 2rem 0;
+    border-radius: .5rem;
+  }
+
+  .group h2 {
+    font-size: 3rem;
+  }
+
+  .group h2 small {
+    font-size: 65%;
+    margin-left: 1rem;
+  }
+
+  .group hr {
+    border-color: #ececec;
+    border-style: solid;
+    margin: 2rem -2em;
+    border-bottom: none;
+  }
+
+  .group p {
+    color: #777;
+    font-size: 0.8rem;
+    font-weight: 300;
+  }
+
+  .group h2 small::before,
+  .group h2 small::after {
+    color: #000;
+  }
+
+  .group h2 small::before {
+    content: "["
+  }
+
+  .group h2 small::after {
+    content: "]"
+  }
+
+  .group hr:last-of-type,
+  .group .photos {
+    display: none;
+  }
+
+  /*group end*/
+
+
+  footer {
+    font-size: 0.7rem;
+    color: #2e39bc;
+    text-align: right;
+  }
+
+
+
+  @media (min-width:1024px) {
+    body {
+      overflow: hidden;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10
+    }
+
+    main {
+      padding: 0 2rem;
+      overflow: auto;
+      scroll-snap-type: y mandatory;
+      height: 100vh;
+    }
+
+    section {
+      scroll-snap-align: start;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /*carousel start*/
+    .carousel {
+      width: 60%;
+      height: 80vh;
+    }
+
+    .swiper-wrapper {
+      height: 80vh;
+    }
+
+    .controls .button-nav {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .controls {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .active .controls {
+      opacity: 1;
+    }
+
+    /*carousel end*/
+
+
+    /*group start*/
+    .group {
+      margin: 0 2rem 0;
+      width: 40%;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+
+    .active .group {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .group p {
+      column-count: 2;
+      column-gap: 1rem;
+    }
+
+    .group hr:last-of-type {
+      display: block;
+    }
+
+    .group .photos {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .group .photos div {
+      width: 5vw;
+      height: 5vw;
+      cursor: pointer;
+      border: 2px solid #ddd;
+      background-color: #fafafa;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .group .photos div.active {
+      border-color: #e74ebc;
+    }
+
+    .group .photos div img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+    }
+
+    /*group end*/
+
+    footer {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  }
+</style>
+
+<body>
+  <header>
+    <div class="logo"></div>
+    <h1 class="mb-0">Eva<br />Units</h1>
+  </header>
+
+
+
+  <main>
+
+    <section data-model="00"><!--00 section start-->
+
+      <div class="carousel">
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="img/eva/00/1.webp" /></div>
+            <div class="swiper-slide"><img src="img/eva/00/2.webp" /></div>
+            <div class="swiper-slide"><img src="img/eva/00/3.webp" /></div>
+            <div class="swiper-slide"><img src="img/eva/00/4.webp" /></div>
+          </div>
+        </div>
+        <div class="controls">
+          <div class="pagination"></div>
+          <div class="button-nav button-left"><span></span></div>
+          <div class="button-nav button-right"><span></span></div>
+        </div>
+      </div>
+
+      <div class="group"><!--00 card start-->
+        <h2>00<small>Prototype</small></h2>
+        <hr />
+        <p>
+          Eva-00 is piloted by the character Rei Ayanami and has a distinctive violet color scheme. It
+          plays a crucial role in the series, both in the battles against the Angels and in the complex
+          narrative that explores themes of identity, psychology, and human relationships. Eva-00 is known for
+          its enigmatic and somewhat mysterious nature, much like its pilot, Rei.
+        </p>
+        <hr />
+        <div class="photos">
+          <div class="active"><img src="img/eva/00/1.webp"></div>
+          <div><img src="img/eva/00/2.webp"></div>
+          <div><img src="img/eva/00/3.webp"></div>
+          <div><img src="img/eva/00/4.webp"></div>
+        </div>
+      </div><!--00 card end-->
+    </section><!--00 section end-->
+
+    <section data-model="01"><!--01 section start-->
+
+      <div class="carousel">
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="img/eva/01/1.webp" /></div>
+            <div class="swiper-slide"><img src="img/eva/01/2.webp" /></div>
+            <div class="swiper-slide"><img src="img/eva/01/3.webp" /></div>
+            <div class="swiper-slide"><img src="img/eva/01/4.webp" /></div>
+            <div class="swiper-slide"><img src="img/eva/01/5.webp" /></div>
+          </div>
+        </div>
+        <div class="controls">
+          <div class="pagination"></div>
+          <div class="button-nav button-left"><span></span></div>
+          <div class="button-nav button-right"><span></span></div>
+        </div>
+      </div>
+
+      <div class="group"><!--01 card start-->
+        <h2>01<small>Test Type</small></h2>
+        <hr />
+        <p>
+          Eva-01 has a unique color scheme of purple and green and is piloted by the series'
+          protagonist, Shinji Ikari. This Eva possesses a strong connection to Shinji and is a focal point of
+          the series' intricate plot, often exhibiting moments of extraordinary power and transformation.
+          Eva-01's role extends beyond combat, playing a central role in the series' exploration of
+          psychological and existential themes, making it an iconic and complex character in its own right.
+        </p>
+        <hr />
+        <div class="photos">
+          <div class="active"><img src="img/eva/01/1.webp"></div>
+          <div><img src="img/eva/01/2.webp"></div>
+          <div><img src="img/eva/01/3.webp"></div>
+          <div><img src="img/eva/01/4.webp"></div>
+          <div><img src="img/eva/01/5.webp"></div>
+        </div>
+      </div><!--01 card end-->
+    </section><!--01 section end-->
+
+    <section data-model="02"><!--02 section start-->
+
+      <div class="carousel">
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="img/eva/02/1.webp" /></div>
+            <div class="swiper-slide"><img src="img/eva/02/2.webp" /></div>
+            <div class="swiper-slide"><img src="img/eva/02/3.webp" /></div>
+            <div class="swiper-slide"><img src="img/eva/02/4.webp" /></div>
+            <div class="swiper-slide"><img src="img/eva/02/5.webp" /></div>
+          </div>
+        </div>
+        <div class="controls">
+          <div class="pagination"></div>
+          <div class="button-nav button-left"><span></span></div>
+          <div class="button-nav button-right"><span></span></div>
+        </div>
+      </div>
+
+      <div class="group"><!--02 card start-->
+        <h2>02<small>Prod model</small></h2>
+        <hr />
+        <p>
+          Eva-02 has a distinct red color scheme and is piloted by Asuka Langley Soryu, a fiery and
+          determined character. This Eva showcases a more aggressive and offensive approach in combat compared
+          to other Eva units. Throughout the series, Eva-02 becomes an integral part of the team's defense
+          against the Angels and contributes to the complex character dynamics and themes explored in the
+          show, including the psychological struggles of its pilot.
+        </p>
+        <hr />
+        <div class="photos">
+          <div class="active"><img src="img/eva/02/1.webp"></div>
+          <div><img src="img/eva/02/2.webp"></div>
+          <div><img src="img/eva/02/3.webp"></div>
+          <div><img src="img/eva/02/4.webp"></div>
+          <div><img src="img/eva/02/5.webp"></div>
+        </div>
+      </div><!--02 card end-->
+    </section><!--02 section end-->
+
+  </main>
+
+  <footer class="container">@Chita</footer>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('section');
+      const main = document.querySelector('main')
+      const isDesktop = window.innerWidth >= 1024
+
+      sections.forEach((section) => {
+        const swiper = new Swiper(section.querySelector('.swiper'), {
+          loop: true,
+          slidesPerView: 1,
+          pagination: {
+            el: section.querySelector('.pagination'),
+            clickable: true,
+          },
+          centeredSlides: true,
+          navigation: {
+            nextEl: section.querySelector(".button-right"),
+            prevEl: section.querySelector(".button-left")
+          }
+        })
+
+        if (isDesktop) {
+          let photos = section.querySelectorAll('.photos > div');
+          let dots = section.querySelectorAll('.pagination span');//swiper 設定好 pagination，自己產生的 span
+
+          const activeThumb = (current) => {
+            section.querySelector('.photos > .active').classList.remove('active');
+            current.classList.add('active');
+          }
+
+          photos.forEach((photo, i) => {
+            photo.addEventListener('click', () => {
+              activeThumb(photo);
+              dots[i].click() // 自行模擬 pagination 下的 span 被按到，讓主圖切換過去
+            })
+          })
+
+          swiper.on('realIndexChange', (swiper) => {
+            activeThumb(photos[swiper.realIndex]);
+            /*swiper.on('realIndexChange',...)註冊一個事件監聽，當 swiper 的實際索引變動時觸發，通常在使用者左右滑動幼燈片後發生*/
+            /*swiper Swiper事件回傳的實例(物件)，裡面包含目前的 realIndex 等資訊*/
+          })
+        }
+      })
+
+      if (isDesktop && main) {
+        const highVisibleSection = () => {
+          sections.forEach(section => {
+            const y = section.getBoundingClientRect().top;
+            section.classList.toggle('active', y > -100 && y < 100)
+          })
+        }
+        highVisibleSection()
+        main.addEventListener('scroll',highVisibleSection);
+      }
+
+      // const activeSection = () => {
+      //   sections.forEach(section => {
+      //     if (section.getBoundingClientRect().y > -100 && section.getBoundingClientRect().y < 100) {
+      //       section.classList.add('active')
+      //     } else {
+      //       section.classList.remove('active')
+      //     }
+      //   })
+      // }
+
+      // if (window.innerWidth >= 1024) {
+      //   activeSection();
+      //   main.addEventListener('scroll', () => {
+      //     activeSection();
+      //   })
+      // }
+    })
+  </script>
+</body>
+
+</html>
